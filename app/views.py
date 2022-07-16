@@ -30,5 +30,23 @@ def create_webpage(request):
         w.save()
         return HttpResponse('Webpage is inserterd')
     return render(request,'create_webpage.html')
+def select_topic(request):
+    topics=Topic.objects.all()
+    d={'LOT':topics}
+    if request.method=='POST':
+        tp=request.POST.getlist('topic')
+        print(tp)
+        LOW=Webpage.objects.none()
+        for i in tp:
+            LOW=LOW|Webpage.objects.filter(topic_name=i)
+        d1={'LOW':LOW}
+        return render(request,'display_webpages.html',d1)
+    return render(request,'select_topic.html',d)
+
+def checkbox(request):
+    topics=Topic.objects.all()
+    d={'LOT':topics}
+    return render(request,'checkbox.html',d)
+
 
 
